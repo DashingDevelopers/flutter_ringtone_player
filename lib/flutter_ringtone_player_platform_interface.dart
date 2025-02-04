@@ -10,8 +10,7 @@ abstract class FlutterRingtonePlayerPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static FlutterRingtonePlayerPlatform _instance =
-      MethodChannelFlutterRingtonePlayer();
+  static FlutterRingtonePlayerPlatform _instance = MethodChannelFlutterRingtonePlayer();
 
   /// The default instance of [FlutterRingtonePlayerPlatform] to use.
   ///
@@ -34,6 +33,7 @@ abstract class FlutterRingtonePlayerPlatform extends PlatformInterface {
     double? volume,
     bool? looping,
     bool? asAlarm,
+    String? fromUri,
   }) {
     throw UnimplementedError('play() has not been implemented.');
   }

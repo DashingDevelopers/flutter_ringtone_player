@@ -27,30 +27,31 @@ class MethodChannelFlutterRingtonePlayer extends FlutterRingtonePlayerPlatform {
     IosSound? ios,
     String? fromAsset,
     String? fromFile,
+    String? fromUri,
     double? volume,
     bool? looping,
     bool? asAlarm,
   }) async {
-    if (fromAsset == null && android == null && ios == null) {
+    if (fromAsset == null && android == null && ios == null && fromUri == null) {
       throw "Please specify the sound source.";
     }
     if (fromFile != null) {
       fromAsset = await _generateFileUri(fromFile);
-    } else if (fromAsset == null) {
+    } else if (fromAsset == null && fromUri == null) {
       if (android == null) {
         throw "Please specify android sound.";
       }
       if (ios == null) {
         throw "Please specify ios sound.";
       }
-    } else {
-      fromAsset = await _generateAssetUri(fromAsset);
+    } else if (fromAsset != null) {
+      fromUri = await _generateAssetUri(fromAsset);
     }
     try {
       var args = <String, dynamic>{};
       if (android != null) args['android'] = android.value;
       if (ios != null) args['ios'] = ios.value;
-      if (fromAsset != null) args['uri'] = fromAsset;
+      if (fromUri != null) args['uri'] = fromUri;
       if (looping != null) args['looping'] = looping;
       if (volume != null) args['volume'] = volume;
       if (asAlarm != null) args['asAlarm'] = asAlarm;
@@ -132,8 +133,7 @@ class MethodChannelFlutterRingtonePlayer extends FlutterRingtonePlayerPlatform {
       await file.writeAsBytes(byteData.buffer.asUint8List());
       return file.uri.path;
     } else if (Platform.isIOS) {
-      if (!['wav', 'mp3', 'aiff', 'caf']
-          .contains(asset.split('.').last.toLowerCase())) {
+      if (!['wav', 'mp3', 'aiff', 'caf'].contains(asset.split('.').last.toLowerCase())) {
         throw 'Format not supported for iOS. Only mp3, wav, aiff and caf formats are supported.';
       }
       return asset;
@@ -145,8 +145,7 @@ class MethodChannelFlutterRingtonePlayer extends FlutterRingtonePlayerPlatform {
   /// Generate asset uri according to platform.
   static Future<String> _generateFileUri(String asset) async {
     if (Platform.isIOS) {
-      if (!['wav', 'mp3', 'aiff', 'caf']
-          .contains(asset.split('.').last.toLowerCase())) {
+      if (!['wav', 'mp3', 'aiff', 'caf'].contains(asset.split('.').last.toLowerCase())) {
         throw 'Format not supported for iOS. Only mp3, wav, aiff and caf formats are supported.';
       }
     }

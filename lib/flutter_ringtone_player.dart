@@ -21,6 +21,7 @@ class FlutterRingtonePlayer {
     AndroidSound? android,
     IosSound? ios,
     String? fromAsset,
+    String? fromUri,
     String? fromFile,
     double? volume,
     bool? looping,
@@ -32,6 +33,7 @@ class FlutterRingtonePlayer {
       looping: looping,
       asAlarm: asAlarm,
       android: android,
+      fromUri: fromUri,
       fromAsset: fromAsset,
       fromFile: fromFile,
     );
@@ -43,8 +45,7 @@ class FlutterRingtonePlayer {
     bool looping = true,
     bool asAlarm = true,
   }) {
-    return FlutterRingtonePlayerPlatform.instance
-        .playAlarm(volume: volume, looping: looping, asAlarm: asAlarm);
+    return FlutterRingtonePlayerPlatform.instance.playAlarm(volume: volume, looping: looping, asAlarm: asAlarm);
   }
 
   /// Play default notification sound
@@ -53,8 +54,7 @@ class FlutterRingtonePlayer {
     bool? looping,
     bool asAlarm = false,
   }) {
-    return FlutterRingtonePlayerPlatform.instance
-        .playNotification(volume: volume, looping: looping, asAlarm: asAlarm);
+    return FlutterRingtonePlayerPlatform.instance.playNotification(volume: volume, looping: looping, asAlarm: asAlarm);
   }
 
   /// Play default system ringtone (looping on Android)
@@ -63,8 +63,7 @@ class FlutterRingtonePlayer {
     bool looping = true,
     bool asAlarm = false,
   }) {
-    return FlutterRingtonePlayerPlatform.instance
-        .playRingtone(volume: volume, looping: looping, asAlarm: asAlarm);
+    return FlutterRingtonePlayerPlatform.instance.playRingtone(volume: volume, looping: looping, asAlarm: asAlarm);
   }
 
   /// Stop looping sounds like alarms & ringtones on Android.
